@@ -26,10 +26,12 @@
       'position:fixed;inset:0;z-index:2147483646;' +
       'animation:_gcIn 0.3s ease both;';
 
+    var bg = mode === 'video' ? '#4C1F24' : '#E4E4E4';
+
     var iframe = d.createElement('iframe');
     iframe.src  = GALLERY_URL + '?mode=' + encodeURIComponent(mode || 'imagens');
-    iframe.style.cssText = 'width:100%;height:100%;border:none;display:block;background:#E4E4E4;';
-    iframe.setAttribute('allow', 'fullscreen');
+    iframe.style.cssText = 'width:100%;height:100%;border:none;display:block;background:' + bg + ';';
+    iframe.setAttribute('allow', 'autoplay; fullscreen');
 
     overlay.appendChild(iframe);
     d.body.appendChild(overlay);
@@ -61,10 +63,16 @@
     if (show === 1) _open('imagens'); else _close();
   };
 
-  // GaleriaPlantas(1) → abre galeria de plantas
+  // GaleriaPlantas(1) → abre galeria de plantas (pasta Pavimentos)
   // GaleriaPlantas(0) → fecha
   w.GaleriaPlantas = function (show) {
     if (show === 1) _open('plantas'); else _close();
+  };
+
+  // GaleriaVideo(1) → abre o vídeo direto (sem grade, sem sub-pastas)
+  // GaleriaVideo(0) → fecha
+  w.GaleriaVideo = function (show) {
+    if (show === 1) _open('video'); else _close();
   };
 
 }(window, document));

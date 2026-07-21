@@ -28,20 +28,23 @@ assets/
 
 ## Como funciona
 
-### Dois modos de galeria
+### Modos de galeria
 
 A galeria aceita um parâmetro `?mode=` na URL:
 
 | Modo | URL | O que exibe |
 |------|-----|-------------|
-| `imagens` | `index.html?mode=imagens` | Categorias de imagens |
-| `plantas` | `index.html?mode=plantas` | Plantas por tipologia |
+| `imagens` | `index.html?mode=imagens` | Todas as categorias (Fachada, Áreas Comuns, Living, Plantas, Pavimentos) |
+| `plantas` | `index.html?mode=plantas` | Abre direto na categoria **Pavimentos** (sem grade de filtros) |
+| `video` | `index.html?mode=video` | Sem grade — abre o vídeo direto no player do lightbox e, ao fechar, fecha a galeria inteira |
 | `all` | `index.html` | Tudo (uso local / testes) |
+
+O vídeo não aparece como item/aba dentro dos modos `imagens`/`all` — só é acessível via `?mode=video`.
 
 ### Filtros
 
-- **Modo imagens**: filtros principais = categorias de imagens. Categorias com sub-filtros por tipologia.
-- **Modo plantas**: filtros principais = tipologias. Cada filtro mostra as plantas daquela tipologia.
+- **Modo imagens**: filtros principais = categorias de imagens.
+- **Modo plantas**: sem filtros — abre direto na categoria Pavimentos.
 - Sem botão "Todos" — galeria já abre filtrada na primeira categoria disponível.
 
 ### Card duplex (cobertura-plan)
@@ -51,9 +54,9 @@ Cards de plantas com dois pavimentos usam `type: 'cobertura-plan'` (recurso do m
 - Label flutuante sobre a imagem indicando o pavimento
 - Botão **"Ver ambos os pavimentos"** abre lightbox lado a lado
 
-### Card de vídeo
+### Vídeo
 
-Itens com `type: 'video'` mostram a primeira cena do arquivo como preview (via `<video preload="metadata">`) com um botão de play sobreposto. Como só existe um vídeo, não há sub-pastas nem múltiplos nomes — basta um item apontando para o `.mp4` dentro de `assets/Video/`. Ao clicar, abre no lightbox com os controles nativos do navegador (sem zoom/pan, que são exclusivos de imagem).
+O vídeo não é um card dentro da grade — ele é acionado direto pelo hotspot do 3DVista via `GaleriaVideo(1)`, que abre a galeria em `?mode=video`. Nesse modo não há grade nem filtros: o item `type: 'video'` é aberto automaticamente no lightbox (autoplay com som, controles nativos do navegador, sem zoom/pan) assim que a página carrega, e fechar o lightbox fecha a galeria inteira e volta pro tour. Como só existe um vídeo, não há sub-pastas nem múltiplos nomes — basta um item apontando para o `.mp4` dentro de `assets/Video/`.
 
 ### Lightbox
 
@@ -86,9 +89,10 @@ categories: [
   { id: 'living',       label: 'Living' },
   { id: 'plantas',      label: 'Plantas' },
   { id: 'pavimentos',   label: 'Pavimentos' },
-  { id: 'video',        label: 'Vídeo' },
 ],
 ```
+
+Não há categoria para vídeo — itens `type:'video'` não usam filtro, só o modo `?mode=video` (veja acima).
 
 ### Itens — imagem simples
 
@@ -180,11 +184,17 @@ setTimeout(() => { GaleriaImagens(1); }, 300);
 // Fecha galeria de imagens
 GaleriaImagens(0);
 
-// Abre galeria de plantas
+// Abre galeria de plantas (categoria Pavimentos)
 setTimeout(() => { GaleriaPlantas(1); }, 300);
 
 // Fecha galeria de plantas
 GaleriaPlantas(0);
+
+// Abre o vídeo direto (sem grade, sem sub-pastas)
+setTimeout(() => { GaleriaVideo(1); }, 300);
+
+// Fecha o vídeo
+GaleriaVideo(0);
 ```
 
 > O `setTimeout` garante que o script já foi carregado antes de chamar a função.

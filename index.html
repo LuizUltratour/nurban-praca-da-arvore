@@ -1191,7 +1191,6 @@
         { id: 'living',        label: 'Living' },
         { id: 'plantas',       label: 'Plantas' },
         { id: 'pavimentos',    label: 'Pavimentos' },
-        { id: 'video',         label: 'Vídeo' },
       ],
 
       // type: 'image'  → card normal com lightbox
@@ -1296,20 +1295,22 @@
     const elLbNext = $('lb-next');
     const elLbZoomBar = $('lb-zoom-bar');
 
-    // ── modo: 'imagens' | 'plantas' | 'all' ──────────────────────────
+    // ── modo: 'imagens' | 'plantas' | 'video' | 'all' ─────────────────
     const MODE = (() => {
       try {
         const m = new URLSearchParams(window.location.search).get('mode') || 'all';
-        return ['all', 'imagens', 'plantas'].includes(m) ? m : 'all';
+        return ['all', 'imagens', 'plantas', 'video'].includes(m) ? m : 'all';
       } catch (_) { return 'all'; }
     })();
 
+    // modo 'plantas' abre direto na categoria "Pavimentos"
+    // modo 'video' não usa grade/filtros — abre o vídeo direto no lightbox
     const DISPLAY_CATS = (() => {
-      if (MODE === 'imagens') return GALLERY_CONFIG.categories.filter(c => c.id !== 'plantas');
       if (MODE === 'plantas') {
-        const p = GALLERY_CONFIG.categories.find(c => c.id === 'plantas');
-        return (p && p.subs) ? p.subs : [];
+        const p = GALLERY_CONFIG.categories.find(c => c.id === 'pavimentos');
+        return p ? [p] : [];
       }
+      if (MODE === 'video') return [];
       return GALLERY_CONFIG.categories;
     })();
 
@@ -1364,11 +1365,7 @@
     // ── gallery ──────────────────────────────────────────────────────
     function filteredItems() {
       return GALLERY_CONFIG.items.filter(item => {
-        if (MODE === 'plantas') {
-          if (item.category !== 'plantas') return false;
-          if (st.cat && item.subCategory !== st.cat) return false;
-          return true;
-        }
+        if (item.type === 'video') return false;
         if (st.cat && st.cat !== 'all' && item.category !== st.cat) return false;
         if (st.sub && item.subCategory !== st.sub) return false;
         return true;
@@ -1650,6 +1647,8 @@
         elLbVideo.removeAttribute('src');
         elLbVideo.load();
       }, 300);
+      // modo vídeo não tem grade por trás — fecha a galeria inteira junto
+      if (MODE === 'video') closeGallery();
     }
 
     function updateLb() {
@@ -1689,13 +1688,16 @@
 
     // ── init ──────────────────────────────────────────────────────────
     function init() {
-      if (MODE === 'imagens' && DISPLAY_CATS.length) st.cat = DISPLAY_CATS[0].id;
-      else if (MODE === 'plantas' && DISPLAY_CATS.length) st.cat = DISPLAY_CATS[0].id;
-      else if (DISPLAY_CATS.length) st.cat = DISPLAY_CATS[0].id;
+      if (DISPLAY_CATS.length) st.cat = DISPLAY_CATS[0].id;
 
-      renderMainFilters();
-      renderSubFilters();
-      renderGallery();
+      if (MODE === 'video') {
+        const videoItem = GALLERY_CONFIG.items.find(i => i.type === 'video');
+        if (videoItem) openLbVideo(videoItem);
+      } else {
+        renderMainFilters();
+        renderSubFilters();
+        renderGallery();
+      }
 
       $('btn-close').addEventListener('click', closeGallery);
       $('lb-close').addEventListener('click', closeLb);
