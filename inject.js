@@ -26,11 +26,9 @@
       'position:fixed;inset:0;z-index:2147483646;' +
       'animation:_gcIn 0.3s ease both;';
 
-    var bg = mode === 'video' ? '#4C1F24' : '#E4E4E4';
-
     var iframe = d.createElement('iframe');
     iframe.src  = GALLERY_URL + '?mode=' + encodeURIComponent(mode || 'imagens');
-    iframe.style.cssText = 'width:100%;height:100%;border:none;display:block;background:' + bg + ';';
+    iframe.style.cssText = 'width:100%;height:100%;border:none;display:block;background:#4C1F24;';
     iframe.setAttribute('allow', 'autoplay; fullscreen');
 
     overlay.appendChild(iframe);

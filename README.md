@@ -205,8 +205,10 @@ GaleriaVideo(0);
 
 | Token | Valor |
 |-------|-------|
-| Background | `#E4E4E4` |
-| Texto / Secundária | `#4C1F24` |
+| Fundo / Secundária | `#4C1F24` |
+| Texto sobre o fundo | `#E4E4E4` |
 | Acento / Principal | `#F18F58` |
 | Fonte títulos | Cormorant Garamond |
 | Fonte UI | Inter |
+
+Fundo escuro (#4C1F24) em toda a galeria, inclusive nas áreas sem foto (header, barra de filtros, grade vazia). Botões de fechar (✕) usam preenchimento sólido laranja com canto superior-esquerdo arredondado e ícone na cor do fundo.
