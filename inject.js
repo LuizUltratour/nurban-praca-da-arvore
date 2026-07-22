@@ -63,7 +63,7 @@
     if (show === 1) _open('imagens'); else _close();
   };
 
-  // GaleriaPlantas(1) → abre galeria de plantas (pasta Pavimentos)
+  // GaleriaPlantas(1) → abre galeria de plantas (Plantas + Pavimentos)
   // GaleriaPlantas(0) → fecha
   w.GaleriaPlantas = function (show) {
     if (show === 1) _open('plantas'); else _close();

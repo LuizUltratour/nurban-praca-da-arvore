@@ -1303,13 +1303,15 @@
       } catch (_) { return 'all'; }
     })();
 
-    // modo 'plantas' abre direto na categoria "Pavimentos"
-    // modo 'video' não usa grade/filtros — abre o vídeo direto no lightbox
+    // modo 'imagens' → só Fachada, Áreas Comuns e Living
+    // modo 'plantas' → Plantas e Pavimentos
+    // modo 'video'   → não usa grade/filtros, abre o vídeo direto no lightbox
+    const IMAGENS_CAT_IDS = ['fachada', 'areas-comuns', 'living'];
+    const PLANTAS_CAT_IDS = ['plantas', 'pavimentos'];
+
     const DISPLAY_CATS = (() => {
-      if (MODE === 'plantas') {
-        const p = GALLERY_CONFIG.categories.find(c => c.id === 'pavimentos');
-        return p ? [p] : [];
-      }
+      if (MODE === 'imagens') return GALLERY_CONFIG.categories.filter(c => IMAGENS_CAT_IDS.includes(c.id));
+      if (MODE === 'plantas') return GALLERY_CONFIG.categories.filter(c => PLANTAS_CAT_IDS.includes(c.id));
       if (MODE === 'video') return [];
       return GALLERY_CONFIG.categories;
     })();

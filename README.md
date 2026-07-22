@@ -34,8 +34,8 @@ A galeria aceita um parâmetro `?mode=` na URL:
 
 | Modo | URL | O que exibe |
 |------|-----|-------------|
-| `imagens` | `index.html?mode=imagens` | Todas as categorias (Fachada, Áreas Comuns, Living, Plantas, Pavimentos) |
-| `plantas` | `index.html?mode=plantas` | Abre direto na categoria **Pavimentos** (sem grade de filtros) |
+| `imagens` | `index.html?mode=imagens` | Fachada, Áreas Comuns e Living |
+| `plantas` | `index.html?mode=plantas` | Plantas e Pavimentos |
 | `video` | `index.html?mode=video` | Sem grade — abre o vídeo direto no player do lightbox e, ao fechar, fecha a galeria inteira |
 | `all` | `index.html` | Tudo (uso local / testes) |
 
@@ -43,8 +43,8 @@ O vídeo não aparece como item/aba dentro dos modos `imagens`/`all` — só é 
 
 ### Filtros
 
-- **Modo imagens**: filtros principais = categorias de imagens.
-- **Modo plantas**: sem filtros — abre direto na categoria Pavimentos.
+- **Modo imagens**: filtros = Fachada, Áreas Comuns, Living.
+- **Modo plantas**: filtros = Plantas, Pavimentos.
 - Sem botão "Todos" — galeria já abre filtrada na primeira categoria disponível.
 
 ### Card duplex (cobertura-plan)
@@ -184,7 +184,7 @@ setTimeout(() => { GaleriaImagens(1); }, 300);
 // Fecha galeria de imagens
 GaleriaImagens(0);
 
-// Abre galeria de plantas (categoria Pavimentos)
+// Abre galeria de plantas (Plantas + Pavimentos)
 setTimeout(() => { GaleriaPlantas(1); }, 300);
 
 // Fecha galeria de plantas
